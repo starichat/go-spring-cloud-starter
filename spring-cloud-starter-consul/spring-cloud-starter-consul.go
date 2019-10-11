@@ -19,11 +19,12 @@ package SpringCloudStarterConsul
 import (
 	"fmt"
 	"net/http"
-	"github.com/satori/go.uuid"
-	"github.com/didi/go-spring/spring-core"
-	ConsulApi "github.com/hashicorp/consul/api"
+
 	"github.com/go-spring/go-spring-boot/spring-boot"
 	"github.com/go-spring/go-spring-cloud/spring-cloud-consul"
+	"github.com/go-spring/go-spring/spring-core"
+	ConsulApi "github.com/hashicorp/consul/api"
+	"github.com/satori/go.uuid"
 )
 
 func init() {
@@ -37,15 +38,15 @@ type ConsulDiscoveryClientWrapper struct {
 	*SpringCloudConsul.ConsulDiscoveryClient
 }
 
-func (client *ConsulDiscoveryClientWrapper) OnStartApplication(context SpringBoot.SpringApplicationContext) {
+func (client *ConsulDiscoveryClientWrapper) OnStartApplication(context SpringBoot.ApplicationContext) {
 	go client.RegisterServer(context)
 }
 
-func (client *ConsulDiscoveryClientWrapper) OnStopApplication(context SpringBoot.SpringApplicationContext) {
+func (client *ConsulDiscoveryClientWrapper) OnStopApplication(context SpringBoot.ApplicationContext) {
 
 }
 
-func (client *ConsulDiscoveryClientWrapper) RegisterServer(context SpringBoot.SpringApplicationContext) error {
+func (client *ConsulDiscoveryClientWrapper) RegisterServer(context SpringBoot.ApplicationContext) error {
 
 	registration := new(ConsulApi.AgentServiceRegistration)
 	registration.ID = uuid.NewV4().String()

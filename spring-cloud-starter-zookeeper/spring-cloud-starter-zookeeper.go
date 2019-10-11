@@ -17,15 +17,15 @@
 package SpringCloudStarterZookeeper
 
 import (
-	"strings"
 	"encoding/json"
-	"github.com/samuel/go-zookeeper/zk"
-	"github.com/didi/go-spring/spring-core"
-	"github.com/didi/go-spring/spring-utils"
-	Logger "github.com/didi/go-spring/spring-logger"
+	"strings"
+
 	"github.com/go-spring/go-spring-boot/spring-boot"
-	"github.com/go-spring/go-spring-cloud/spring-cloud-zookeeper"
 	"github.com/go-spring/go-spring-cloud/spring-cloud-discovery"
+	"github.com/go-spring/go-spring-cloud/spring-cloud-zookeeper"
+	"github.com/go-spring/go-spring/spring-core"
+	"github.com/go-spring/go-spring/spring-utils"
+	"github.com/samuel/go-zookeeper/zk"
 )
 
 func init() {
@@ -44,18 +44,18 @@ type ZookeeperDiscoveryClientWraper struct {
 	*SpringCloudZookeeper.ZookeeperDiscoveryClient
 }
 
-func (client *ZookeeperDiscoveryClientWraper) OnStartApplication(context SpringBoot.SpringApplicationContext) {
+func (client *ZookeeperDiscoveryClientWraper) OnStartApplication(context SpringBoot.ApplicationContext) {
 
 	servers := strings.Split(client.Config.Address, ",")
 	conn, session, err := zk.Connect(servers, 5e9)
 	if err != nil {
-		Logger.Fatalf("Can't connect: %v", err)
+		//Logger.Fatalf("Can't connect: %v", err)
 		panic(err)
 	}
 
 	//defer zk.Close()
 
-	conn.SetLogger(Logger.Logger)
+	//conn.SetLogger(Logger.Logger)
 
 	for {
 		event := <-session
@@ -71,7 +71,7 @@ func (client *ZookeeperDiscoveryClientWraper) OnStartApplication(context SpringB
 	}
 }
 
-func (client *ZookeeperDiscoveryClientWraper) OnStopApplication(context SpringBoot.SpringApplicationContext) {
+func (client *ZookeeperDiscoveryClientWraper) OnStopApplication(context SpringBoot.ApplicationContext) {
 
 }
 
